@@ -1,0 +1,27 @@
+  Con Firebase: Algoritmo
+    Paso 01: Definir la f(n) asincrona para recuperar los alumnos de forma asincronados: getDocs
+    Paso 02: Apuntar a la coleccion de los perfiles : collection 
+    Paso  3: Lo mismo que con LStge
+    Paso  4: Devolverlo en la f(n) como servico del ProfileAlums
+  Etapa-2
+    Paso  5:
+
+  Con LocalStge
+   Fase 01: Traer la Informacion
+    Paso 0: traer la referencia de  los datos por medio de la reactividad de vue
+    Paso 1: Verificar la clave con la que la ifo. del alumno fue guardada
+    Paso 2: Una vez, teniendo la reference(cve) validar que exista al menos un dato
+    Paso 3: Si es asi mostrar el indice que le corresponde segun su inicio de sesion del alumno con c/dato
+    Paso 4: Regresar toda esa data en un arreglo que encapsula la info
+  Fase 02: Mostrar Datos por referencia de inicio de sesion
+    Paso 1: Obt la referncia por correo y todo el objeto de la lista de usuarios
+    Paso 2: Validar que exitan usuarios registrados
+    Paso 3: Si se confirmo que si, Ent,  Buscar en todos los registros de la persistencia del navegador.
+    Paso 4: Renderizar los datos, por medio de la referencia del paso 1. y la constante del P3 en donde se guado la busqueda.
+   Fase 03: 
+    Paso 01: Autoinicializarlo en el ciclo de vida de Onmounted
+
+
+    Question-1? El algoritmo es correcto o existe refactorización?
+    Question-2? 
+
