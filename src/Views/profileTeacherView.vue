@@ -6,7 +6,7 @@
     const userTest1  = 'instituto@ejemplo.com';
     const passwordTest1 = '654123';
     
-    async function verPerfilDelProfesor(userTest1: String, passwordTest1: String){
+    export async function verPerfilDelProfesor(userTest1: String, passwordTest1: String){
     		pr_teacherStore.accesProfileData(userTest1,passwordTest1);
 
     }

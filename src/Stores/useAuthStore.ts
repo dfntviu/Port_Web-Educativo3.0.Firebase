@@ -1,8 +1,10 @@
  import {defineStore} from 'pinia';
  import {AuthService} from '@/services/AuthService.ts';
  import {generatePermisosPorRol} from '@/States/useStateRules.ts';  //new_1 - ([const] ePropio de reglas de Seg. Firebase)
+  import {inicarFirebaseConf} from '@/comfig/initializeFirebase.js';
 
   type Role = 'alumno' || 'profesor' | null;
+   const {auth,db} = inicarFirebaseConf();
 
    export  const useAuthStore = defineStore('auth', {
       		state: () => ({  // son los datos que una aplicacion necesita guardar en el almacen(tienda de props)
@@ -67,8 +69,8 @@
       			    this.sessionTimestamp = null;
       			    this.lastError = null;    // Cambios Parte 3.3
                     this.permisos = generatePermisosPorRol(null); //limpiar los permisos de sesión de Firerules
-      			},
-
+      			}, 
+                 
       			async login( {usuario, contrasenia}: {usuario: string, contrasenia: string}){
       					this.setLoading(true);
       					this.setError(null);
@@ -105,7 +107,29 @@
       					 this.setLoading(false);
       				}
       			},
-
+                     // Nw Mt. ctrl real del estado al iniciar el rol de Alumnos
+                   // Quedara en lugar de la inicializacion
+                async checkAuthState(){
+                    return new Promise((resolve)=>{
+                         this.auth.onAuthStateChanged(async (user)=>{
+                            if(user){
+                                this.user = user;
+                                this.isAuthenticaded = true;
+                                // Leer el rol desde la Firestore
+                                const docRef = doc(db,'regs_alumnos', user.uid);
+                                       const snap = await getDoc(docRef);
+                                this.role = snap.exists() ? snap.data().role : null;
+                            }else{
+                                this.user = null;
+                                this.role = null;
+                                this.isAuthenticaded = null;
+                            }
+                            this.isLoading = true;
+                            resolve();
+                        });
+                    });
+                } //#End de la verificacion por(estado del alumno)
+                    // Posiblemente se elimine o comente porque se ocupa 1 sola vez y ya lo hace el servicio mas facil
       			inicializateAuth(){
       				return new Promise((resolve)=> {
       					const unsub = AuthService.onAuthStateChanged(async (firebaseUser) =>{

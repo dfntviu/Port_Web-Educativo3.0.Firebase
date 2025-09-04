@@ -1,20 +1,27 @@
  <template>
+ 	<!-- Aplicar en la vista de correcion -->
+ 	 <div v-if="estado_auth.isAlumnoEmail"> 	 	
+   	     <TeacherNavView/>
+ 	 </div>
+ 	 <div v-if="estado_auth.isProfesorEmail">
+ 	 	<StudentNavView/>
+ 	 </div>
 </template>
-
+ 
 <script setup>
 	import {ref, computed} from 'vue';
 	import { useAuthStore } from '@/Stores/useAuthStore.ts';
 	import { AuthService } from '@/Services/useAuthStore.ts';
 	import { useRouter } from 'vue';
-	import { navigationAlum } from '@/Layout/NavigationAlumno.vue';
-	import { navigationTeach } from '@/Layout/NavigationTeacher.vue';
+	import { StudentNavView } from '@/components/StudentNavView.vue';
+	import { TeacherNavView } from '@/components/TeacherNavView.vue';
 
 
 	// invocamos al serv de autentificacion
-	const estado_auth = useAuthStore();
+	const  estado_auth = useAuthStore();
     const  chage_route = useRouter()
 	const type_user = ref('');
-	const password = ref('');
+	const   password = ref('');
 
 		// Validaciones UI
 
@@ -29,14 +36,14 @@
 	 	 	result = await estado_auth.login({ type_user: type_user.value, password: password.value});
 
 			let type_user_profesor = navigationTeach()
-	 	 	let type_user_alumno   = navigationAlum();
+	 	 	  let type_user_alumno   = navigationAlum();
 			
 
 	 	  if(result.success){
 	 	  	  if(estado_auth.isAlumnoEmail) router.push()
- |				 chage_route.push({name: 'NavigationAlumno'});
-	 	   else if(estado_auth.is.isProfesorEmail)
-	 	  	  		chage_route.push({name: 'NavigationTeacher'});
+ 				 chage_route.push({name: 'StudentNavView'});
+	 	   else if(estado_auth.isProfesorEmail)
+	 	  	  		chage_route.push({name: 'TeacherNavView'});
 
 	 	  }
 	};
